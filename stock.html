@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock - Sistema de Inventario</title>
     <style>
-        /* Mantén el estilo original */
+        /* Diseñok m */
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('fondo.png') no-repeat center center fixed; background-size: cover; color: white; }
         .container { margin: 20px auto; width: 90%; max-width: 1200px; background-color: rgba(0, 0, 0, 0.8); border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); }
         h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; color: #fff; }
@@ -19,9 +19,12 @@
         .header .button { padding: 10px 20px; background-color: #3d3d3d; color: white; border: 1px solid #fff; border-radius: 5px; cursor: pointer; text-decoration: none; }
         .header .button:hover { background-color: #555; }
         .form-container { margin-top: 20px; text-align: center; }
-        .form-container input, .form-container button { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        .form-container input, .form-container button, .filter-container input { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
         .form-container button { background-color: #4CAF50; color: white; cursor: pointer; }
         .form-container button:hover { background-color: #45a049; }
+        .delete-button { background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .delete-button:hover { background-color: #d32f2f; }
+        .filter-container { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -34,6 +37,7 @@
             <a href="menu.html" class="button">Volver al Menú</a>
         </div>
         <h1>Stock</h1>
+
         <!-- Formulario para registrar stock -->
         <div class="form-container">
             <input type="text" id="stock-id" placeholder="ID" required>
@@ -43,6 +47,12 @@
             <input type="text" id="stock-disponible" placeholder="Disponible" required>
             <button onclick="agregarStock()">Registrar</button>
         </div>
+
+        <!-- Campo para filtrar stock -->
+        <div class="filter-container">
+            <input type="text" id="filter-input" placeholder="Buscar en stock..." oninput="filtrarStock()">
+        </div>
+
         <!-- Tabla de stock -->
         <table>
             <thead>
@@ -52,6 +62,7 @@
                     <th>Fecha de Registro</th>
                     <th>Proveedor</th>
                     <th>Disponible</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="stock-table-body">
@@ -62,6 +73,7 @@
                     <td>2024-11-27</td>
                     <td>Proveedor A</td>
                     <td>Sí</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
                 <tr>
                     <td>002</td>
@@ -69,26 +81,24 @@
                     <td>2024-11-25</td>
                     <td>Proveedor B</td>
                     <td>No</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <script>
         function agregarStock() {
-            // Captura los valores
             const id = document.getElementById("stock-id").value;
             const nombre = document.getElementById("stock-nombre").value;
             const fecha = document.getElementById("stock-fecha").value;
             const proveedor = document.getElementById("stock-proveedor").value;
             const disponible = document.getElementById("stock-disponible").value;
 
-            // Valida que los campos no estén vacíos
             if (!id || !nombre || !fecha || !proveedor || !disponible) {
                 alert("Por favor completa todos los campos.");
                 return;
             }
 
-            // Agrega una nueva fila a la tabla
             const tbody = document.getElementById("stock-table-body");
             const fila = document.createElement("tr");
             fila.innerHTML = `
@@ -97,15 +107,36 @@
                 <td>${fecha}</td>
                 <td>${proveedor}</td>
                 <td>${disponible}</td>
+                <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             tbody.appendChild(fila);
 
-            // Limpia el formulario
             document.getElementById("stock-id").value = "";
             document.getElementById("stock-nombre").value = "";
             document.getElementById("stock-fecha").value = "";
             document.getElementById("stock-proveedor").value = "";
             document.getElementById("stock-disponible").value = "";
+
+            // Asegura que el filtro se aplique inmediatamente después de agregar
+            filtrarStock();
+        }
+
+        function eliminarFila(boton) {
+            const fila = boton.parentElement.parentElement;
+            fila.remove();
+
+            // Asegura que el filtro se aplique inmediatamente después de eliminar
+            filtrarStock();
+        }
+
+        function filtrarStock() {
+            const filtro = document.getElementById("filter-input").value.toLowerCase();
+            const filas = document.querySelectorAll("#stock-table-body tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.textContent.toLowerCase();
+                fila.style.display = textoFila.includes(filtro) ? "" : "none";
+            });
         }
     </script>
 </body>
