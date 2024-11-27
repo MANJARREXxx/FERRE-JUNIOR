@@ -16,11 +16,14 @@
         td { background-color: rgba(255, 255, 255, 0.1); color: white; }
         .nav-button { background-color: transparent; color: white; border: 2px solid white; padding: 10px 20px; margin-bottom: 20px; text-align: center; text-decoration: none; font-size: 16px; cursor: pointer; transition: all 0.3s ease; display: inline-block; border-radius: 5px; }
         .nav-button:hover { background-color: white; color: black; }
-        .form-container { margin-top: 20px; text-align: center; }
-        .form-container input, .form-container textarea, .form-container button { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        .form-container, .filter-container { margin-top: 20px; text-align: center; }
+        .form-container input, .form-container textarea, .form-container button,
+        .filter-container input { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
         .form-container button { background-color: #4CAF50; color: white; cursor: pointer; }
         .form-container button:hover { background-color: #45a049; }
         .form-container textarea { resize: none; width: 95%; }
+        .delete-button { background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .delete-button:hover { background-color: #d32f2f; }
     </style>
 </head>
 <body>
@@ -33,11 +36,17 @@
         <h2>Informe</h2>
         <!-- Formulario para registrar informes -->
         <div class="form-container">
-            <input type="text" id="informe-nombre" placeholder="Nombre " required>
+            <input type="text" id="informe-nombre" placeholder="Nombre" required>
             <input type="date" id="informe-fecha" required>
             <textarea id="informe-descripcion" placeholder="Descripción del Informe" rows="4" required></textarea>
             <button onclick="agregarInforme()">Registrar Informe</button>
         </div>
+        
+        <!-- Campo para filtro -->
+        <div class="filter-container">
+            <input type="text" id="filter-input" placeholder="Buscar informe..." oninput="filtrarInformes()">
+        </div>
+        
         <!-- Tabla de informes -->
         <table>
             <thead>
@@ -45,55 +54,76 @@
                     <th>Nombre</th>
                     <th>Fecha</th>
                     <th>Informe</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="informe-table-body">
-                <!-- Datos iniciales -->
                 <tr>
                     <td>Ejemplo 1</td>
                     <td>2024-11-27</td>
                     <td>Informe sobre inventario de ferretería</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
                 <tr>
                     <td>Ejemplo 2</td>
                     <td>2024-11-26</td>
                     <td>Informe de proveedores actualizados</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
                 <tr>
                     <td>Ejemplo 3</td>
                     <td>2024-11-25</td>
                     <td>Informe de stock mínimo alcanzado</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <script>
         function agregarInforme() {
-            // Captura los valores
             const nombre = document.getElementById("informe-nombre").value;
             const fecha = document.getElementById("informe-fecha").value;
             const descripcion = document.getElementById("informe-descripcion").value;
 
-            // Valida que los campos no estén vacíos
             if (!nombre || !fecha || !descripcion) {
                 alert("Por favor completa todos los campos.");
                 return;
             }
 
-            // Agrega una nueva fila a la tabla
             const tbody = document.getElementById("informe-table-body");
             const fila = document.createElement("tr");
             fila.innerHTML = `
                 <td>${nombre}</td>
                 <td>${fecha}</td>
                 <td>${descripcion}</td>
+                <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             tbody.appendChild(fila);
 
-            // Limpia el formulario
             document.getElementById("informe-nombre").value = "";
             document.getElementById("informe-fecha").value = "";
             document.getElementById("informe-descripcion").value = "";
+
+            // Asegura que el filtro se aplique inmediatamente después de agregar
+            filtrarInformes();
+        }
+
+        function eliminarFila(boton) {
+            const fila = boton.parentElement.parentElement;
+            fila.remove();
+
+            // Asegura que el filtro se aplique inmediatamente después de eliminar
+            filtrarInformes();
+        }
+
+        function filtrarInformes() {
+            const filtro = document.getElementById("filter-input").value.toLowerCase();
+            const filas = document.querySelectorAll("#informe-table-body tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.textContent.toLowerCase();
+                fila.style.display = textoFila.includes(filtro) ? "" : "none";
+            });
         }
     </script>
 </body>
