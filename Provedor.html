@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provedor - Sistema de Inventario</title>
+    <title>Proveedor - Sistema de Inventario</title>
     <style>
+        /* Diseño */
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('fondo.png') no-repeat center center fixed; background-size: cover; color: white; }
         .container { margin: 20px auto; width: 90%; max-width: 1200px; background-color: rgba(0, 0, 0, 0.8); border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); }
         h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; color: #fff; }
@@ -18,9 +19,12 @@
         .header .button { padding: 10px 20px; background-color: #3d3d3d; color: white; border: 1px solid #fff; border-radius: 5px; cursor: pointer; text-decoration: none; }
         .header .button:hover { background-color: #555; }
         .form-container { margin-top: 20px; text-align: center; }
-        .form-container input, .form-container button { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        .form-container input, .form-container button, .filter-container input { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
         .form-container button { background-color: #4CAF50; color: white; cursor: pointer; }
         .form-container button:hover { background-color: #45a049; }
+        .delete-button { background-color: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .delete-button:hover { background-color: #d32f2f; }
+        .filter-container { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -33,6 +37,7 @@
             <a href="menu.html" class="button">Volver al Menú</a>
         </div>
         <h1>Proveedores</h1>
+
         <!-- Formulario para registrar proveedores -->
         <div class="form-container">
             <input type="text" id="proveedor-nit" placeholder="NIT" required>
@@ -41,6 +46,12 @@
             <input type="text" id="proveedor-especialidad" placeholder="Especialidad" required>
             <button onclick="agregarProveedor()">Registrar</button>
         </div>
+
+        <!-- Campo para filtrar proveedores -->
+        <div class="filter-container">
+            <input type="text" id="filter-input" placeholder="Buscar proveedor..." oninput="filtrarProveedores()">
+        </div>
+
         <!-- Tabla de proveedores -->
         <table>
             <thead>
@@ -49,6 +60,7 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Especialidad</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="proveedor-table-body">
@@ -58,31 +70,30 @@
                     <td>Proveedor A</td>
                     <td>contacto@proveedora.com</td>
                     <td>Ferretería</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
                 <tr>
                     <td>987654321</td>
                     <td>Proveedor B</td>
                     <td>ventas@proveedorb.com</td>
                     <td>Papelería</td>
+                    <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <script>
         function agregarProveedor() {
-            // Captura los valores
             const nit = document.getElementById("proveedor-nit").value;
             const nombre = document.getElementById("proveedor-nombre").value;
             const correo = document.getElementById("proveedor-correo").value;
             const especialidad = document.getElementById("proveedor-especialidad").value;
 
-            // Valida que los campos no estén vacíos
             if (!nit || !nombre || !correo || !especialidad) {
                 alert("Por favor completa todos los campos.");
                 return;
             }
 
-            // Agrega una nueva fila a la tabla
             const tbody = document.getElementById("proveedor-table-body");
             const fila = document.createElement("tr");
             fila.innerHTML = `
@@ -90,6 +101,7 @@
                 <td>${nombre}</td>
                 <td>${correo}</td>
                 <td>${especialidad}</td>
+                <td><button class="delete-button" onclick="eliminarFila(this)">Eliminar</button></td>
             `;
             tbody.appendChild(fila);
 
@@ -98,6 +110,27 @@
             document.getElementById("proveedor-nombre").value = "";
             document.getElementById("proveedor-correo").value = "";
             document.getElementById("proveedor-especialidad").value = "";
+
+            // Asegura que el filtro se aplique inmediatamente después de agregar
+            filtrarProveedores();
+        }
+
+        function eliminarFila(boton) {
+            const fila = boton.parentElement.parentElement;
+            fila.remove();
+
+            // Asegura que el filtro se aplique inmediatamente después de eliminar
+            filtrarProveedores();
+        }
+
+        function filtrarProveedores() {
+            const filtro = document.getElementById("filter-input").value.toLowerCase();
+            const filas = document.querySelectorAll("#proveedor-table-body tr");
+
+            filas.forEach(fila => {
+                const textoFila = fila.textContent.toLowerCase();
+                fila.style.display = textoFila.includes(filtro) ? "" : "none";
+            });
         }
     </script>
 </body>
