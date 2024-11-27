@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferre-Junior - Menú Principal</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('fondo.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        /* Contenedor principal del menú */
+        .menu-container {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Títulos */
+        .menu-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .menu-subtitle {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* Contenedor de opciones */
+        .menu-options {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        /* Botón de opción */
+        .menu-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s;
+        }
+
+        .menu-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .menu-option img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .menu-option span {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú principal -->
+    <div class="menu-container">
+        <div class="menu-title">FERRE-JUNIOR</div>
+        <div class="menu-subtitle">SISTEMA DE INVENTARIO</div>
+        <div class="menu-options">
+            <div class="menu-option" onclick="goToPage('stock.html')">
+                <img src="stock-icon.png" alt="Stock">
+                <span>STOCK</span>
+            </div>
+            <div class="menu-option" onclick="goToPage('Provedor.html')">
+                <img src="proveedor-icon.png" alt="Proveedor">
+                <span>PROVEEDOR</span>
+            </div>
+            <div class="menu-option" onclick="goToPage('informes.html')">
+                <img src="informes-icon.png" alt="Informes">
+                <span>INFORMES</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para redirigir a otras páginas
+        function goToPage(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Ferre-Junior</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url(fondo.png)
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        /* Contenedor principal */
+        .login-container {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Icono de usuario */
+        .login-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        /* Títulos */
+        .login-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Entradas de texto */
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Botones */
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Redes sociales */
+        .social-icons {
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            margin: 0 5px;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-icon">👤</div>
+        <div class="login-title">FERRE-JUNIOR</div>
+        <div class="login-subtitle">SISTEMA DE INVENTARIO</div>
+        <form id="login-form">
+            <input type="text" id="username" class="login-input" placeholder="Usuario" required>
+            <input type="password" id="password" class="login-input" placeholder="Clave" required>
+            <button type="submit" class="login-button">Iniciar Sesión</button>
+        </form>
+        <div class="social-icons">
+            <a href="#" target="_blank">🌐</a>
+            <a href="#" target="_blank">📘</a>
+            <a href="#" target="_blank">🐦</a>
+        </div>
+    </div>
+
+    <script>
+        // Validación básica del formulario
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === "admin" && password === "1234") {
+                alert("Inicio de sesión exitoso");
+                window.location.href = "menu.html";
+            } else {
+                alert("Usuario o clave incorrectos");
+            }
+        });
+    </script>
+</body>
+</html>

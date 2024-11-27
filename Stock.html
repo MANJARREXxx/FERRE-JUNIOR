@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock - Sistema de Inventario</title>
+    <style>
+        /* Mantén el estilo original */
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('fondo.png') no-repeat center center fixed; background-size: cover; color: white; }
+        .container { margin: 20px auto; width: 90%; max-width: 1200px; background-color: rgba(0, 0, 0, 0.8); border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); }
+        h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; color: #fff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table th, table td { padding: 10px; text-align: center; border: 1px solid #555; color: #fff; }
+        table th { background-color: #3d3d3d; font-weight: bold; }
+        table tr:nth-child(even) { background-color: #2d2d2d; }
+        table tr:hover { background-color: #444; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .header .logo img { height: 50px; margin-right: 10px; }
+        .header .button { padding: 10px 20px; background-color: #3d3d3d; color: white; border: 1px solid #fff; border-radius: 5px; cursor: pointer; text-decoration: none; }
+        .header .button:hover { background-color: #555; }
+        .form-container { margin-top: 20px; text-align: center; }
+        .form-container input, .form-container button { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        .form-container button { background-color: #4CAF50; color: white; cursor: pointer; }
+        .form-container button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="Icon-stock1.png" alt="Logo Stock">
+                <span class="title">FERRE-JUNIOR</span>
+            </div>
+            <a href="menu.html" class="button">Volver al Menú</a>
+        </div>
+        <h1>Stock</h1>
+        <!-- Formulario para registrar stock -->
+        <div class="form-container">
+            <input type="text" id="stock-id" placeholder="ID" required>
+            <input type="text" id="stock-nombre" placeholder="Nombre" required>
+            <input type="date" id="stock-fecha" required>
+            <input type="text" id="stock-proveedor" placeholder="Proveedor" required>
+            <input type="text" id="stock-disponible" placeholder="Disponible" required>
+            <button onclick="agregarStock()">Registrar</button>
+        </div>
+        <!-- Tabla de stock -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha de Registro</th>
+                    <th>Proveedor</th>
+                    <th>Disponible</th>
+                </tr>
+            </thead>
+            <tbody id="stock-table-body">
+                <!-- Datos iniciales -->
+                <tr>
+                    <td>001</td>
+                    <td>Martillo</td>
+                    <td>2024-11-27</td>
+                    <td>Proveedor A</td>
+                    <td>Sí</td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Clavos</td>
+                    <td>2024-11-25</td>
+                    <td>Proveedor B</td>
+                    <td>No</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function agregarStock() {
+            // Captura los valores
+            const id = document.getElementById("stock-id").value;
+            const nombre = document.getElementById("stock-nombre").value;
+            const fecha = document.getElementById("stock-fecha").value;
+            const proveedor = document.getElementById("stock-proveedor").value;
+            const disponible = document.getElementById("stock-disponible").value;
+
+            // Valida que los campos no estén vacíos
+            if (!id || !nombre || !fecha || !proveedor || !disponible) {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            // Agrega una nueva fila a la tabla
+            const tbody = document.getElementById("stock-table-body");
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${id}</td>
+                <td>${nombre}</td>
+                <td>${fecha}</td>
+                <td>${proveedor}</td>
+                <td>${disponible}</td>
+            `;
+            tbody.appendChild(fila);
+
+            // Limpia el formulario
+            document.getElementById("stock-id").value = "";
+            document.getElementById("stock-nombre").value = "";
+            document.getElementById("stock-fecha").value = "";
+            document.getElementById("stock-proveedor").value = "";
+            document.getElementById("stock-disponible").value = "";
+        }
+    </script>
+</body>
+</html>
